@@ -1,5 +1,7 @@
 import './todolist.css';
 
+import './common/es6/1.js';
+
 
 var complete = 0;
 var total = 0;
