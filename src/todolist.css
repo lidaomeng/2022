@@ -1,0 +1,34 @@
+
+.container {
+  padding: 20px;
+  margin: 0 auto;
+  width: 400px; 
+  border: 1px solid gainsboro;
+
+  text-align: left;
+}
+
+.container .body {
+  border: 1px solid gainsboro;
+  margin: 20px 0;
+  padding: 10px;
+  padding-right: 50px;
+}
+
+
+.container .body .todolist-item {
+  margin: 5px 0;
+
+  display: flex;
+  align-items: center;
+  height: 30px;
+}
+
+.container .body .todolist-item:hover {
+  background-color: gainsboro;
+}
+
+.container .body .todolist-item button {
+  margin-left: auto;
+  display: none;
+}
