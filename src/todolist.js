@@ -1,4 +1,4 @@
-import './todolist.css';
+import './todolist.scss';
 
 import './common/es6/1.js';
 

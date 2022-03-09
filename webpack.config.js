@@ -4,13 +4,14 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 // const WebpackDevServer = require('webpack-dev-server');
 const CopyPlugin = require("copy-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
   mode: "none",
   entry: "./src/todolist.js",
   output: {
     path: path.resolve(__dirname, "dist"),
-    filename: "[name].[hash:8].js",
+    filename: "[name]-[contenthash:8].js",
   },
   module: {
     rules: [
@@ -25,8 +26,8 @@ module.exports = {
         },
       },
       {
-        test: /\.css$/i,
-        use: ["style-loader", "css-loader"],
+        test: /\.(scss|css)$/i,
+        use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader', 'sass-loader'],
       },
     ],
   },
@@ -36,6 +37,10 @@ module.exports = {
     },
   },
   plugins: [
+    new MiniCssExtractPlugin({
+      filename: '[name]-[contenthash:8].css',
+      chunkFilename: '[id].css'
+    }),
     new webpack.ProvidePlugin({
       $: "jquery",
     }),
