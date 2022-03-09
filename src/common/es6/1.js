@@ -1,5 +1,14 @@
 console.log("========================= es6语法 =========================");
 
+import img from "../../../assets/img/logo.png";
+console.log("img", img);
+
+var dom = `<img src='${img}' />`;
+
+window.onload = function () {
+  document.getElementById("main").innerHTML = dom;
+};
+
 class Point {
   constructor(x, y) {
     this.x = x;

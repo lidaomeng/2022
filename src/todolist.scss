@@ -30,3 +30,15 @@
   margin-left: auto;
   display: none;
 }
+
+#main {
+  margin-top: 20px;
+  border: 1px solid red;
+  height: 100px;
+  width: 100px;
+
+  img {
+    height: 100%;
+    width: 100%;
+  }
+}
