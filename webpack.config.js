@@ -1,14 +1,17 @@
 const path = require("path");
 const webpack = require("webpack");
-const {CleanWebpackPlugin} = require('clean-webpack-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+// const WebpackDevServer = require('webpack-dev-server');
+const CopyPlugin = require("copy-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
   mode: "none",
   entry: "./src/todolist.js",
   output: {
-    path: path.resolve(__dirname, 'dist'),
-    filename: '[name].[hash:8].js'
+    path: path.resolve(__dirname, "dist"),
+    filename: "[name]-[contenthash:8].js",
   },
   module: {
     rules: [
@@ -23,8 +26,8 @@ module.exports = {
         },
       },
       {
-        test: /\.css$/i,
-        use: ["style-loader", "css-loader"],
+        test: /\.(scss|css)$/i,
+        use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader', 'sass-loader'],
       },
     ],
   },
@@ -34,13 +37,28 @@ module.exports = {
     },
   },
   plugins: [
+    new MiniCssExtractPlugin({
+      filename: '[name]-[contenthash:8].css',
+      chunkFilename: '[id].css'
+    }),
     new webpack.ProvidePlugin({
       $: "jquery",
     }),
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, 'public/todolist.html'),
-      filename: 'index.html'
-    })
+      template: path.resolve(__dirname, "public/todolist.html"),
+      filename: "index.html",
+    }),
+    new CopyPlugin({
+      patterns: [{ from: path.resolve(__dirname, "public/favicon.ico") }],
+    }),
   ],
+  devServer: {
+    static: {
+      directory: path.join(__dirname, "dist"),
+    },
+    open: true,
+    port: 9000,
+    hot: true,
+  },
 };
