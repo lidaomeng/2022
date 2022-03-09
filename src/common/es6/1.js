@@ -203,3 +203,8 @@ class Rectangle extends Shape {
 // var x = new Shape()
 
 var y = new Rectangle(3, 4);
+
+
+var _ = require('lodash');
+
+console.log('_.add(6, 4)', _.add(6, 4))

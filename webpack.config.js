@@ -5,18 +5,26 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 // const WebpackDevServer = require('webpack-dev-server');
 const CopyPlugin = require("copy-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+
+// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+
+// const SpeedMeasurePlugin = require("speed-measure-webpack-plugin");
+// const smp = new SpeedMeasurePlugin();
 
 module.exports = {
   mode: "none",
   entry: {
-    todolist : "./src/todolist.js",
-    item : "./src/item.js",
+    todolist: "./src/todolist.js",
+    item: "./src/item.js",
   },
   output: {
     path: path.resolve(__dirname, "dist"),
     filename: "[name]-[contenthash:8].js",
   },
   module: {
+    noParse: /jquery|lodash/,
     rules: [
       {
         test: /\.m?js$/,
@@ -30,23 +38,30 @@ module.exports = {
       },
       {
         test: /\.(scss|css)$/i,
-        use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader', 'sass-loader'],
+        use: [
+          MiniCssExtractPlugin.loader,
+          "css-loader",
+          "postcss-loader",
+          "sass-loader",
+        ],
       },
       {
         test: /\.(png|jpg|gif)$/i,
-        use: 'file-loader',
-      }
+        use: "file-loader",
+      },
     ],
   },
   resolve: {
     alias: {
       jquery$: path.resolve(__dirname, "assets/js/jquery-1.12.4.min.js"),
     },
+    modules: [path.resolve(__dirname, "node_modules")],
+    extensions: [".js", ".json", ".wasm"],
   },
   plugins: [
     new MiniCssExtractPlugin({
-      filename: '[name]-[contenthash:8].css',
-      chunkFilename: '[id].css'
+      filename: "[name]-[contenthash:8].css",
+      chunkFilename: "[id].css",
     }),
     new webpack.ProvidePlugin({
       $: "jquery",
@@ -65,6 +80,10 @@ module.exports = {
     new CopyPlugin({
       patterns: [{ from: path.resolve(__dirname, "public/favicon.ico") }],
     }),
+
+    // new BundleAnalyzerPlugin(),
+
+    // new TerserPlugin(),
   ],
   devServer: {
     static: {
@@ -73,5 +92,12 @@ module.exports = {
     open: true,
     port: 9000,
     hot: true,
+  },
+  optimization: {
+    minimize: true,
+    minimizer: [new TerserPlugin(), new CssMinimizerPlugin()],
+  },
+  cache: {
+    type: "filesystem",
   },
 };
