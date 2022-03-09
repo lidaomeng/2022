@@ -8,7 +8,10 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
   mode: "none",
-  entry: "./src/todolist.js",
+  entry: {
+    todolist : "./src/todolist.js",
+    item : "./src/item.js",
+  },
   output: {
     path: path.resolve(__dirname, "dist"),
     filename: "[name]-[contenthash:8].js",
@@ -50,8 +53,14 @@ module.exports = {
     }),
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
+      chunks: ["todolist"],
       template: path.resolve(__dirname, "public/todolist.html"),
       filename: "index.html",
+    }),
+    new HtmlWebpackPlugin({
+      chunks: ["item"],
+      template: path.resolve(__dirname, "public/item.html"),
+      filename: "item.html",
     }),
     new CopyPlugin({
       patterns: [{ from: path.resolve(__dirname, "public/favicon.ico") }],
