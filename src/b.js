@@ -1,4 +1,3 @@
 
-var year = 2022;
+export var name = 'Jack'
 
-console.log('year', year)
